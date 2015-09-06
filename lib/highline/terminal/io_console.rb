@@ -37,7 +37,19 @@ class HighLine
       end
 
       def get_line_with_readline(question, highline, options={})
-        require "readline"    # load only if needed
+        # As of rb-readline version 0.5.3 there's an issue
+        # on loading it. So we opted to load it in a "step-by-step"
+        # fashion. We'll try to do a PR on rb-readline to fix it.
+        # But, meanwhile...
+
+        # This will remove old Readline if it's already defined
+        require 'rb-readline'
+
+        # This will load RbReadline for real
+        require 'rbreadline'
+
+        # This will load Readline that relies on RbReadline
+        require 'readline'
 
         question_string = highline.render_statement(question)
 
